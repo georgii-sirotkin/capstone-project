@@ -1,10 +1,12 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+const passport = require('./config/passport').default;
 var logger = require('morgan');
 
-var usersRouter = require('./routes/users');
+const baseRouter = require('./routes');
 
 var app = express();
 
@@ -16,8 +18,10 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.use('/users', usersRouter);
+app.use('/api', baseRouter);
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
