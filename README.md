@@ -3,7 +3,7 @@
 2. Go to client directory `cd client`
 3. Run `npm install`
 4. Return to the project root directory
-5. Copy `.env.example` file to `.env` and edit database url
+5. Copy `.env.example` file, rename it to `.env` and edit database url
 6. Run `npm install`
 7. Run migrations `npx sequelize-cli db:migrate`
 8. Run seeders `npx sequelize-cli db:seed:all`
