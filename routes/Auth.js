@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const { UNAUTHORIZED, OK } = require('http-status-codes');
 const passport = require('../config/passport').default;
+const isAuthenticated = require('../config/passport').isAuthenticated;
 
 const router = Router();
 
@@ -32,6 +33,11 @@ router.post('/login', (req, res, next) => {
       return res.status(OK).json(userData);
     });
   })(req, res, next);
+});
+
+router.post('/logout', isAuthenticated, (req, res) => {
+  req.logout();
+  return res.status(OK).end();
 });
 
 module.exports = router;
