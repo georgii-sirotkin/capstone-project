@@ -4,6 +4,14 @@ const passport = require('../config/passport').default;
 
 const router = Router();
 
+router.get('/me', (req, res) => {
+  if (req.user) {
+    return res.status(OK).json(req.user);
+  }
+
+  return res.status(UNAUTHORIZED).end();
+});
+
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', function (err, user, info) {
     if (err) {

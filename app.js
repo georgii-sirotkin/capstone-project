@@ -4,6 +4,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 const passport = require('./config/passport').default;
+const sessionMiddleware = require('./middleware/sessionMiddleware');
 var logger = require('morgan');
 
 const baseRouter = require('./routes');
@@ -18,6 +19,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
