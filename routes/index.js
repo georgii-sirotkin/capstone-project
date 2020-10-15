@@ -1,9 +1,11 @@
 const { Router } = require('express');
-const AuthRouter = require('./Auth');
+const authRouter = require('./auth');
+const hotelRouter = require('./hotels');
 
 const router = Router();
 
-router.use('/auth', AuthRouter);
+router.use('/auth', authRouter);
+router.use('/hotels', hotelRouter);
 
 router.get('/*', (req, res) => {
   return res.status(404).end();

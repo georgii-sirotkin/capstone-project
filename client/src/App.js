@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import { CssBaseline, Link, Button } from '@material-ui/core';
 import Login from './Login';
+import AdminDashboard from './admin/Dashboard';
 import LoadingPage from './LoadingPage';
 
 function App() {
@@ -41,6 +42,12 @@ function App() {
         <Route path='/login'>
           <Login user={user} onLogIn={setUser} />
         </Route>
+        <Route path='/admin'>
+          <AdminDashboard
+            user={user}
+            onLogOut={logOut}
+          />
+        </Route>
         <Route path='/'>
           <div>
             {user ? (
@@ -52,7 +59,7 @@ function App() {
               </>
             ) : (
               <>
-                'Not logged in'
+                Not logged in<br />
                 <Link
                   component={RouterLink}
                   to='login'
