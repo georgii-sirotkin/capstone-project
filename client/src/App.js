@@ -4,12 +4,12 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link as RouterLink,
 } from 'react-router-dom';
-import { CssBaseline, Link, Button } from '@material-ui/core';
+import { CssBaseline } from '@material-ui/core';
 import Login from './Login';
 import AdminDashboard from './admin/Dashboard';
 import LoadingPage from './LoadingPage';
+import Layout from './Layout';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -49,26 +49,17 @@ function App() {
           />
         </Route>
         <Route path='/'>
-          <div>
+          <Layout user={user} onLogOut={logOut}>
             {user ? (
               <>
                 Logged in as {user.firstName} {user.lastName}<br />
-                <Button color='primary' variant='contained' onClick={logOut}>
-                  Log out
-                </Button>
               </>
             ) : (
               <>
                 Not logged in<br />
-                <Link
-                  component={RouterLink}
-                  to='login'
-                >
-                  Sign in
-                </Link>
               </>
             )}
-          </div>
+          </Layout>
         </Route>
       </Switch>
     </Router>
