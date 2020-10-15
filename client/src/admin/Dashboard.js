@@ -25,6 +25,7 @@ import {
   Link as RouterLink,
 } from 'react-router-dom';
 import ListItemNavLink from '../ListItemNavLink';
+import Hotels from './Hotels';
 
 const drawerWidth = 240;
 
@@ -187,7 +188,7 @@ export default function Dashboard({ onLogOut, user }) {
         <div className={classes.toolbar} />
         <Switch>
           <Route path={`${path}/hotels`}>
-            Hotels
+            <Hotels />
           </Route>
           <Route path={`${path}/users`}>
             Users
