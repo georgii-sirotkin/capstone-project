@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const { UNAUTHORIZED, OK } = require('http-status-codes');
 const passport = require('../config/passport').default;
+const bcrypt = require('bcrypt');
+const User = require('../models/User');
 const isAuthenticated = require('../config/passport').isAuthenticated;
 
 const router = Router();
@@ -38,6 +40,30 @@ router.post('/login', (req, res, next) => {
 router.post('/logout', isAuthenticated, (req, res) => {
   req.logout();
   return res.status(OK).end();
+});
+
+router.post('/register', async (req, res, next) => {
+  // @ToDo add validation
+
+  try {
+    const user = await User.create({
+      email: req.body.email,
+      isAdmin: false,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      password: bcrypt.hashSync(req.body.password, 10),
+    });
+
+    req.login(user, function(err) {
+      if (err) {
+        return next(err);
+      }
+
+      return res.status(OK).json(user);
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
