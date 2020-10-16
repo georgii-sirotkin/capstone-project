@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexGrow: 1,
+    flexDirection: 'column',
   },
   title: {
     flexGrow: 1,
@@ -48,12 +49,6 @@ const useStyles = makeStyles((theme) => ({
   },
   accountMenuButton: {
     marginLeft: theme.spacing(1.5),
-  },
-  drawer: {
-    [theme.breakpoints.up('md')]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
   },
   drawerPaper: {
     width: drawerWidth,
@@ -89,7 +84,7 @@ export default function Layout({ onLogOut, user, children }) {
 
   return (
     <div className={classes.root}>
-      <AppBar>
+      <AppBar position='static'>
         <Toolbar>
           <IconButton
             color='inherit'
@@ -191,7 +186,7 @@ export default function Layout({ onLogOut, user, children }) {
           </Box>
         </Toolbar>
       </AppBar>
-      <nav className={classes.drawer}>
+      <nav>
         <Hidden mdUp implementation='css'>
           <Drawer
             anchor='left'
@@ -212,7 +207,6 @@ export default function Layout({ onLogOut, user, children }) {
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <div className={classes.toolbar} />
         {children}
       </main>
     </div>

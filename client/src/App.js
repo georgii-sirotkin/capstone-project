@@ -10,6 +10,7 @@ import Login from './Login';
 import AdminDashboard from './admin/Dashboard';
 import LoadingPage from './LoadingPage';
 import Layout from './Layout';
+import Hotels from './Hotels';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -50,15 +51,7 @@ function App() {
         </Route>
         <Route path='/'>
           <Layout user={user} onLogOut={logOut}>
-            {user ? (
-              <>
-                Logged in as {user.firstName} {user.lastName}<br />
-              </>
-            ) : (
-              <>
-                Not logged in<br />
-              </>
-            )}
+            <Hotels />
           </Layout>
         </Route>
       </Switch>
