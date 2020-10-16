@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import { CssBaseline } from '@material-ui/core';
 import Login from './Login';
+import SignUp from './SignUp';
 import AdminDashboard from './admin/Dashboard';
 import LoadingPage from './LoadingPage';
 import Layout from './Layout';
@@ -42,6 +43,9 @@ function App() {
       <Switch>
         <Route path='/login'>
           <Login user={user} onLogIn={setUser} />
+        </Route>
+        <Route path='/sign-up'>
+          <SignUp user={user} onSignUp={setUser} />
         </Route>
         <Route path='/admin'>
           <AdminDashboard

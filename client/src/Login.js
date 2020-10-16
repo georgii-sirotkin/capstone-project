@@ -5,6 +5,8 @@ import {
   Typography,
   TextField,
   Button,
+  Link,
+  Box,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -13,7 +15,7 @@ import {
   Field,
 } from 'formik';
 import * as Yup from 'yup';
-import { Redirect } from 'react-router-dom';
+import { Link as RouterLink, Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -29,6 +31,9 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  signUpLink: {
+    fontWeight: 500,
+  }
 }));
 
 const validationSchema = Yup.object({
@@ -125,6 +130,17 @@ export default function Login({ user, onLogIn }) {
             </Form>
           )}
         </Formik>
+        <Box display='flex' justifyContent='flex-start' width='100%'>
+          Don't have an account yet?&nbsp;
+          <Link href='#'
+            variant='body2'
+            className={classes.signUpLink}
+            component={RouterLink}
+            to='/sign-up'
+          >
+            Sign up
+          </Link>
+        </Box>
       </div>
     </Container>
   );
