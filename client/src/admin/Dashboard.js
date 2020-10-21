@@ -26,6 +26,7 @@ import {
 } from 'react-router-dom';
 import ListItemNavLink from '../ListItemNavLink';
 import Hotels from './Hotels';
+import Users from './Users';
 
 const drawerWidth = 240;
 
@@ -191,7 +192,7 @@ export default function Dashboard({ onLogOut, user }) {
             <Hotels />
           </Route>
           <Route path={`${path}/users`}>
-            Users
+            <Users />
           </Route>
           <Route path={path}>
             <Redirect to={`${path}/hotels`} />
