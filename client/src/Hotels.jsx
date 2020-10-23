@@ -73,7 +73,7 @@ export default function Hotels() {
             <Card className={classes.card}>
               <CardMedia
                 className={classes.cardMedia}
-                image='https://cf.bstatic.com/xdata/images/hotel/square600/262993892.webp?k=07dbad2f2eb2ab01416b8f7873f8af20a11f05c80a5d4ef0c40be09b3acd5d85&o='
+                image='https://s3.ca-central-1.amazonaws.com/conestoga-capstone-project.hotel-listing/sheraton-hotel.webp'
                 title={hotel.name}
               />
               <CardContent className={classes.cardContent}>
