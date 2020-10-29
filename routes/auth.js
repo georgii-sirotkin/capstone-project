@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { UNAUTHORIZED, OK } = require('http-status-codes');
+const { Op } = require('sequelize');
 const passport = require('../config/passport').default;
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
@@ -61,6 +62,20 @@ router.post('/register', async (req, res, next) => {
 
       return res.status(OK).json(user);
     });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/check-email/:email', async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        email: req.params.email,
+      }
+    });
+
+    return res.json({ isUnique: user === null });
   } catch (error) {
     next(error);
   }
