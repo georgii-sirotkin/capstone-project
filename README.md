@@ -1,3 +1,6 @@
+### Site url
+https://hotel-listings.herokuapp.com/
+
 # Installation 
 1. Clone the repository.
 2. Go to client directory `cd client`
