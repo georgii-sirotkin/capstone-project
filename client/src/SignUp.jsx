@@ -39,7 +39,20 @@ const useStyles = makeStyles(theme => ({
 const validationSchema = Yup.object({
   email: Yup.string()
     .email()
-    .required('Required'),
+    .required('Required')
+    .test(
+      'is-unique-email',
+      'This email is already used',
+      async (value) => {
+        if (!value) {
+          return true;
+        }
+
+        let url = `/api/auth/check-email/${encodeURIComponent(value)}`;
+        const response = await axios.get(url)
+        return response.data.isUnique;
+      }
+    ),
   firstName: Yup.string()
     .required('Required'),
   lastName: Yup.string()
