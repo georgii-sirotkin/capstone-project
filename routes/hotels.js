@@ -5,7 +5,11 @@ const Hotel = require('../models/Hotel');
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const hotels = await Hotel.findAll();
+  const hotels = await Hotel.findAll({
+    include: [
+      Hotel.associations.thumbnailPhoto,
+    ]
+  });
   return res.status(OK).json(hotels);
 });
 

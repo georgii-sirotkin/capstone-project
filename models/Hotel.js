@@ -1,16 +1,9 @@
 'use strict';
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../database/sequelize');
+const Photo = require('./Photo');
 
 class Hotel extends Model {
-  /**
-   * Helper method for defining associations.
-   * This method is not a part of Sequelize lifecycle.
-   * The `models/index` file will call this method automatically.
-   */
-  static associate(models) {
-    // define association here
-  }
 };
 
 Hotel.init({
@@ -18,11 +11,18 @@ Hotel.init({
   phone: DataTypes.STRING,
   website: DataTypes.STRING,
   description: DataTypes.TEXT,
-  creator_id: DataTypes.INTEGER
+  creatorId: DataTypes.INTEGER,
+  thumbnailPhotoId: DataTypes.INTEGER
 }, {
   sequelize,
   modelName: 'Hotel',
   underscored: true,
+});
+
+Hotel.belongsTo(Photo, {
+  foreignKey: 'thumbnailPhotoId',
+  constraints: false,
+  as: 'thumbnailPhoto'
 });
 
 module.exports = Hotel;
