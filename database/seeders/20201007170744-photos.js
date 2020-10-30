@@ -10,6 +10,16 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date()
       },
+      {
+        name: 'hotel2.webp',
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        name: 'hotel3.webp',
+        created_at: new Date(),
+        updated_at: new Date()
+      },
     ]);
   },
 
