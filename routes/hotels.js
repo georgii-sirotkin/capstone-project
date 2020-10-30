@@ -8,6 +8,7 @@ router.get('/', async (req, res) => {
   const hotels = await Hotel.findAll({
     include: [
       Hotel.associations.thumbnailPhoto,
+      Hotel.associations.address,
     ]
   });
   return res.status(OK).json(hotels);

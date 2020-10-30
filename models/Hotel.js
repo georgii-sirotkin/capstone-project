@@ -2,6 +2,7 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../database/sequelize');
 const Photo = require('./Photo');
+const Address = require('./Address');
 
 class Hotel extends Model {
 };
@@ -12,7 +13,8 @@ Hotel.init({
   website: DataTypes.STRING,
   description: DataTypes.TEXT,
   creatorId: DataTypes.INTEGER,
-  thumbnailPhotoId: DataTypes.INTEGER
+  thumbnailPhotoId: DataTypes.INTEGER,
+  addressId: DataTypes.INTEGER,
 }, {
   sequelize,
   modelName: 'Hotel',
@@ -23,6 +25,12 @@ Hotel.belongsTo(Photo, {
   foreignKey: 'thumbnailPhotoId',
   constraints: false,
   as: 'thumbnailPhoto'
+});
+
+Hotel.belongsTo(Address, {
+  foreignKey: 'addressId',
+  constraints: false,
+  as: 'address'
 });
 
 module.exports = Hotel;
