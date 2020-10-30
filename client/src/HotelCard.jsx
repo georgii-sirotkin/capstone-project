@@ -53,7 +53,7 @@ export default function HotelCard({ hotel }) {
             {hotel.name}
           </Link>
           <Typography>
-            Information about the hotel
+            {hotel.address.line1}, {hotel.address.city}
           </Typography>
         </CardContent>
         <Box display='flex' justifyContent='flex-end'>
