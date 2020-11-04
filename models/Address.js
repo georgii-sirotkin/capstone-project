@@ -3,7 +3,7 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../database/sequelize');
 
 class Address extends Model {
-};
+}
 
 Address.init({
   line1: DataTypes.STRING,

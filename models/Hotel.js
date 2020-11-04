@@ -5,7 +5,7 @@ const Photo = require('./Photo');
 const Address = require('./Address');
 
 class Hotel extends Model {
-};
+}
 
 Hotel.init({
   name: DataTypes.STRING,
