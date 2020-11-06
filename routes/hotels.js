@@ -10,6 +10,7 @@ router.get('/', async (req, res) => {
       include: [
         Hotel.associations.thumbnailPhoto,
         Hotel.associations.address,
+        Hotel.associations.amenities,
       ]
     });
     return res.status(OK).json(hotels);
