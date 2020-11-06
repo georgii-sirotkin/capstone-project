@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const { UNAUTHORIZED, OK } = require('http-status-codes');
-const { Op } = require('sequelize');
 const passport = require('../config/passport').default;
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
