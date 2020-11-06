@@ -35,6 +35,14 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(0, 0, 0, 2),
     flexGrow: 1,
   },
+  amenityIconContainer: {
+    marginRight: 5,
+    '& svg': {
+      width: '20px',
+      height: 'auto',
+      verticalAlign: 'text-bottom',
+    }
+  }
 }));
 
 export default function HotelCard({ hotel }) {
@@ -55,6 +63,16 @@ export default function HotelCard({ hotel }) {
           <Typography>
             {hotel.address.line1}, {hotel.address.city}
           </Typography>
+          <Box mt={1} pb={1}>
+            {hotel.amenities.map(amenity => (
+              <Box mr={2} display='inline-block' key={amenity.id}>
+                <span className={classes.amenityIconContainer} dangerouslySetInnerHTML={{ __html: amenity.icon }}></span>
+                <Typography variant='body1' component='span'>
+                  {amenity.name}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
         </CardContent>
         <Box display='flex' justifyContent='flex-end'>
           <Button variant='contained' color='primary' disableElevation>View</Button>
