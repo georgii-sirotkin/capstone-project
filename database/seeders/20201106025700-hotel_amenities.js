@@ -10,11 +10,11 @@ module.exports = {
     const amenityIds = amenities.map(amenity => amenity.id);
     const hotels = await Hotel.findAll();
     
-    const promises = hotels.map(hotel => {
-      hotel.setAmenities(faker.random.arrayElements(amenityIds, 4));
-    });
+    const promises = hotels.map(hotel => 
+      hotel.setAmenities(faker.random.arrayElements(amenityIds, 4))
+    );
 
-    return Promise.all(promises);
+    await Promise.all(promises);
   },
 
   down: async (queryInterface, Sequelize) => {
