@@ -12,6 +12,7 @@ import AdminDashboard from './admin/Dashboard';
 import LoadingPage from './LoadingPage';
 import Layout from './Layout';
 import Hotels from './Hotels';
+import Hotel from './Hotel';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -55,7 +56,14 @@ function App() {
         </Route>
         <Route path='/'>
           <Layout user={user} onLogOut={logOut}>
-            <Hotels />
+            <Switch>
+              <Route path='/hotels/:id'>
+                <Hotel />
+              </Route>
+              <Route path='/'>
+                <Hotels />
+              </Route>
+            </Switch>
           </Layout>
         </Route>
       </Switch>

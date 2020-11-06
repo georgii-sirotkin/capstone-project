@@ -9,6 +9,8 @@ import {
   Link,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link as RouterLink } from 'react-router-dom';
+import Amenity from './Amenity';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -35,18 +37,11 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(0, 0, 0, 2),
     flexGrow: 1,
   },
-  amenityIconContainer: {
-    marginRight: 5,
-    '& svg': {
-      width: '20px',
-      height: 'auto',
-      verticalAlign: 'text-bottom',
-    }
-  }
 }));
 
 export default function HotelCard({ hotel }) {
   const classes = useStyles();
+  const hotelUrl = `/hotels/${hotel.id}`;
 
   return (
     <Card className={classes.card}>
@@ -57,7 +52,7 @@ export default function HotelCard({ hotel }) {
       />
       <Box display='flex' flexDirection='column' flexGrow={1}>
         <CardContent className={classes.cardContent}>
-          <Link variant="h6" href='#'>
+          <Link variant="h6" component={RouterLink} to={hotelUrl}>
             {hotel.name}
           </Link>
           <Typography>
@@ -65,17 +60,20 @@ export default function HotelCard({ hotel }) {
           </Typography>
           <Box mt={1} pb={1}>
             {hotel.amenities.map(amenity => (
-              <Box mr={2} display='inline-block' key={amenity.id}>
-                <span className={classes.amenityIconContainer} dangerouslySetInnerHTML={{ __html: amenity.icon }}></span>
-                <Typography variant='body1' component='span'>
-                  {amenity.name}
-                </Typography>
-              </Box>
+              <Amenity key={amenity.id} amenity={amenity} />
             ))}
           </Box>
         </CardContent>
         <Box display='flex' justifyContent='flex-end'>
-          <Button variant='contained' color='primary' disableElevation>View</Button>
+          <Button
+            variant='contained'
+            color='primary'
+            component={RouterLink}
+            to={hotelUrl}
+            disableElevation
+          >
+            View
+          </Button>
         </Box>
       </Box>
     </Card>
