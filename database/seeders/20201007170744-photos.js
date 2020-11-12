@@ -20,6 +20,41 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date()
       },
+      {
+        name: 'hotel4.webp',
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        name: 'hotel5.webp',
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        name: 'hotel6.webp',
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        name: 'hotel7.webp',
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        name: 'hotel8.webp',
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        name: 'hotel9.webp',
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        name: 'hotel10.webp',
+        created_at: new Date(),
+        updated_at: new Date()
+      },
     ]);
   },
 
