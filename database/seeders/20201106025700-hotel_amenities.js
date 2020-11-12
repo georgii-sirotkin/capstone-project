@@ -10,9 +10,10 @@ module.exports = {
     const amenityIds = amenities.map(amenity => amenity.id);
     const hotels = await Hotel.findAll();
     
-    const promises = hotels.map(hotel => 
-      hotel.setAmenities(faker.random.arrayElements(amenityIds, 4))
-    );
+    const promises = hotels.map(hotel => {
+      const numberOfAmenities = Math.round(Math.random() * 4) + 1;
+      return hotel.setAmenities(faker.random.arrayElements(amenityIds, numberOfAmenities))
+    });
 
     await Promise.all(promises);
   },
