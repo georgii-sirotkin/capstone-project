@@ -11,6 +11,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import Amenity from './Amenity';
+import HotelRating from './HotelRating';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -64,7 +65,11 @@ export default function HotelCard({ hotel }) {
             ))}
           </Box>
         </CardContent>
-        <Box display='flex' justifyContent='flex-end'>
+        <Box display='flex' pl={2} justifyContent='space-between' alignItems='center'>
+          <HotelRating
+            numberOfReviews={hotel.reviewsCount}
+            ratingSum={hotel.ratingSum}
+          />
           <Button
             variant='contained'
             color='primary'
