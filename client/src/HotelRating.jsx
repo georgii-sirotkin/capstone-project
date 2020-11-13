@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
   starIcon: {
     color: 'rgb(255, 56, 92)',
-    marginLeft: -2,
+    marginLeft: -4,
   },
   averageRating: {
     fontWeight: 500,

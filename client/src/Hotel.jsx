@@ -9,8 +9,10 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useParams } from 'react-router-dom';
+import sumBy from 'lodash.sumby';
 import LoadingContentProgress from './LoadingContentProgress';
 import Amenity from './Amenity';
+import HotelRating from './HotelRating';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -63,6 +65,8 @@ export default function Hotel() {
     ;
   }
 
+  const ratingSum = sumBy(hotel.reviews, 'rating');
+
   return (
     <Container className={classes.container} maxWidth='lg'>
       <Typography variant='h4' className={classes.heading}>
@@ -100,6 +104,12 @@ export default function Hotel() {
                 ))}
               </Box>
             </Typography>
+          </Box>
+          <Box mt={1}>
+            <HotelRating
+              numberOfReviews={hotel.reviews.length}
+              ratingSum={ratingSum}
+            />
           </Box>
         </Grid>
       </Grid>
