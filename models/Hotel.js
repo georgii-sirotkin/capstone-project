@@ -4,6 +4,7 @@ const sequelize = require('../database/sequelize');
 const Photo = require('./Photo');
 const Address = require('./Address');
 const Amenity = require('./Amenity');
+const Review = require('./Review');
 
 class Hotel extends Model {
 }
@@ -37,7 +38,13 @@ Hotel.belongsTo(Address, {
 Hotel.belongsToMany(Amenity, {
   through: 'hotel_amenities',
   as: 'amenities',
-  otherKey: 'amenityId'
+  otherKey: 'amenityId',
+});
+
+Hotel.hasMany(Review, {
+  sourceKey: 'id',
+  foreignKey: 'hotelId',
+  as: 'reviews',
 });
 
 module.exports = Hotel;

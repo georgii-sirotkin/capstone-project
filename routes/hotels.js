@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { OK } = require('http-status-codes');
+const { fn, col } = require('sequelize');
 const Hotel = require('../models/Hotel');
 
 const router = Router();
@@ -7,11 +8,23 @@ const router = Router();
 router.get('/', async (req, res, next) => {
   try {
     const hotels = await Hotel.findAll({
+      attributes: { 
+        include: [
+          [fn('COUNT', col('reviews.id')), 'reviewsCount'],
+          [fn('SUM', col('reviews.rating')), 'ratingSum']
+        ] 
+      },
       include: [
         Hotel.associations.thumbnailPhoto,
         Hotel.associations.address,
         Hotel.associations.amenities,
-      ]
+        {
+          association: Hotel.associations.reviews,
+          required: false,
+          attributes: [],
+        }
+      ],
+      group: ['id', col('amenities.id')],
     });
     return res.status(OK).json(hotels);
   } catch (error) {
@@ -26,6 +39,7 @@ router.get('/:id', async (req, res, next) => {
         Hotel.associations.thumbnailPhoto,
         Hotel.associations.address,
         Hotel.associations.amenities,
+        Hotel.associations.reviews,
       ],
       rejectOnEmpty: true
     });

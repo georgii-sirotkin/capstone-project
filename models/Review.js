@@ -9,10 +9,12 @@ Review.init({
   title: DataTypes.STRING,
   text: DataTypes.TEXT,
   rating: DataTypes.INTEGER,
-  user_id: DataTypes.INTEGER,
-  hotel_id: DataTypes.INTEGER
+  userId: DataTypes.INTEGER,
+  hotelId: DataTypes.INTEGER
 }, {
   sequelize,
   modelName: 'Review',
   underscored: true,
 });
+
+module.exports = Review;
