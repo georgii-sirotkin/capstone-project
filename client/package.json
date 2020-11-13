@@ -11,6 +11,7 @@
     "axios": "^0.20.0",
     "date-fns": "^2.16.1",
     "formik": "^2.2.0",
+    "lodash.sumby": "^4.6.0",
     "material-table": "^1.67.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
