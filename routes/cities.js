@@ -7,8 +7,8 @@ const router = Router();
 router.get('/', async (req, res, next) => {
   try {
     const cities = await Address.findAll({
-      attributes: ['city', 'province'],
-      group: ['city', 'province']
+      attributes: [['city', 'name']],
+      group: ['city']
     });
 
     return res.status(OK).json(cities);
