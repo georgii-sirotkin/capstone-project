@@ -6,6 +6,12 @@ const Hotel = require('../models/Hotel');
 const router = Router();
 
 router.get('/', async (req, res, next) => {
+  const addressWhereConditions = {};
+
+  if (req.query.city) {
+    addressWhereConditions.city = req.query.city;
+  }
+
   try {
     const hotels = await Hotel.findAll({
       attributes: { 
@@ -16,13 +22,16 @@ router.get('/', async (req, res, next) => {
       },
       include: [
         Hotel.associations.thumbnailPhoto,
-        Hotel.associations.address,
         Hotel.associations.amenities,
         {
           association: Hotel.associations.reviews,
           required: false,
           attributes: [],
-        }
+        },
+        {
+          association: Hotel.associations.address,
+          where: addressWhereConditions,
+        },
       ],
       group: ['id', col('amenities.id')],
     });
