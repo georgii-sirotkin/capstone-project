@@ -112,10 +112,10 @@ export default function Layout({ onLogOut, user, children }) {
                 variant='button'
                 color='inherit'
                 component={RouterLink}
-                to='reviews'
+                to='hotel-offers'
                 className={classes.navLink}
               >
-                Reviews
+                Offers from Amadeus
               </Link>
               <Link
                 variant='button'
