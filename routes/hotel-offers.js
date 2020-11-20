@@ -5,7 +5,7 @@ const amadeus = require('../amadeus');
 const router = Router();
 
 router.get('/', async (req, res, next) => {
-  const cityCode = 'PAR';
+  const cityCode = req.query.city || 'YTO';
 
   try {
     const response = await amadeus.shopping.hotelOffers.get({
@@ -14,6 +14,7 @@ router.get('/', async (req, res, next) => {
 
     return res.status(OK).json(response.data);
   } catch (error) {
+    console.log('error: ', error);
     next(error);
   }
 });

@@ -37,7 +37,7 @@ module.exports = {
       },
       {
         name: 'Waterloo',
-        code: 'WLO',
+        code: 'YKF',
         state: 'Ontario',
         country: 'Canada',
         created_at: new Date(),

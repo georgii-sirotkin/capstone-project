@@ -34,12 +34,12 @@ export default function HotelOffers() {
   const [isSearching, setIsSearching] = useState(false);
   const [cities, setCities] = useState([]);
 
-  const searchOptions = cities.map(city => city.name);
+  const searchOptions = cities.map(city => city.code);
 
   function search() {
     setIsSearching(true);
 
-    axios.get(`/api/hotels?city=${searchString}`)
+    axios.get(`/api/hotel-offers?city=${searchString}`)
       .then(response => {
         setHotelOffers(response.data);
         setIsSearching(false);
@@ -47,6 +47,14 @@ export default function HotelOffers() {
       .catch(error => {
         setIsSearching(false);
       })
+  }
+
+  function renderSearchOption(code) {
+    if (!code) {
+      return '';
+    }
+
+    return cities.find(city => city.code === code).name;
   }
 
   useEffect(() => {
@@ -103,6 +111,7 @@ export default function HotelOffers() {
                   onChange={(event, newValue) => {
                     setSearchString(newValue);
                   }}
+                  getOptionLabel={renderSearchOption}
                   fullWidth
                   renderInput={(params) => (
                     <TextField
