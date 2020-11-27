@@ -47,14 +47,13 @@ export default function HotelCard({ hotelOffer }) {
   const classes = useStyles();
   const hotel = hotelOffer.hotel;
   const hotelUrl = `/hotels/${hotel.hotelId}`;
-
   const address = extractAddress(hotel);
 
   return (
     <Card className={classes.card}>
       <CardMedia
         className={classes.cardMedia}
-        image={hotel.media[0].uri}
+        image={hotel.media ? hotel.media[0].uri : undefined}
         title={hotel.name}
       />
       <Box display='flex' flexDirection='column' flexGrow={1}>

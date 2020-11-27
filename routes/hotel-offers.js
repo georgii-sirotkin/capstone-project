@@ -19,4 +19,17 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.get('/:id', async (req, res, next) => {
+  try {
+    const response = await amadeus.shopping.hotelOffersByHotel.get({
+      hotelId: req.params.id
+    });
+
+    return res.status(OK).json(response.data);
+  } catch (error) {
+    console.log('error: ', error);
+    next(error);
+  }
+});
+
 module.exports = router;
