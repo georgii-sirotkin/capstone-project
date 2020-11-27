@@ -13,6 +13,7 @@ import LoadingPage from './LoadingPage';
 import Layout from './Layout';
 import Hotels from './Hotels';
 import Hotel from './Hotel';
+import HotelOffers from './hotel-offers/HotelOffers';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -57,6 +58,9 @@ function App() {
         <Route path='/'>
           <Layout user={user} onLogOut={logOut}>
             <Switch>
+              <Route path='/hotel-offers'>
+                <HotelOffers />
+              </Route>
               <Route path='/hotels/:id'>
                 <Hotel />
               </Route>
