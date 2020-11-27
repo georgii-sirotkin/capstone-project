@@ -14,6 +14,7 @@ import Layout from './Layout';
 import Hotels from './Hotels';
 import Hotel from './Hotel';
 import HotelOffers from './hotel-offers/HotelOffers';
+import HotelOffer from './hotel-offers/HotelOffer';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -58,6 +59,9 @@ function App() {
         <Route path='/'>
           <Layout user={user} onLogOut={logOut}>
             <Switch>
+              <Route path='/hotel-offers/:id'>
+                <HotelOffer />
+              </Route>
               <Route path='/hotel-offers'>
                 <HotelOffers />
               </Route>

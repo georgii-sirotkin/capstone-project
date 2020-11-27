@@ -112,7 +112,7 @@ export default function Layout({ onLogOut, user, children }) {
                 variant='button'
                 color='inherit'
                 component={RouterLink}
-                to='hotel-offers'
+                to='/hotel-offers'
                 className={classes.navLink}
               >
                 Offers from Amadeus
@@ -121,7 +121,7 @@ export default function Layout({ onLogOut, user, children }) {
                 variant='button'
                 color='inherit'
                 component={RouterLink}
-                to='contact-us'
+                to='/contact-us'
                 className={classes.navLink}
               >
                 Contact Us

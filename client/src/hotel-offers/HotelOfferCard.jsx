@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
 export default function HotelCard({ hotelOffer }) {
   const classes = useStyles();
   const hotel = hotelOffer.hotel;
-  const hotelUrl = `/hotels/${hotel.hotelId}`;
+  const hotelUrl = `/hotel-offers/${hotel.hotelId}`;
   const address = extractAddress(hotel);
 
   return (
