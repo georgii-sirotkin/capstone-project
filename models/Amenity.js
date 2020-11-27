@@ -7,6 +7,7 @@ class Amenity extends Model {
 
 Amenity.init({
   name: DataTypes.STRING,
+  code: DataTypes.STRING,
   icon: DataTypes.TEXT
 }, {
   sequelize,
