@@ -1,15 +1,33 @@
 const { Router } = require('express');
-const { OK } = require('http-status-codes');
+const { Client } = require("@googlemaps/google-maps-services-js");
+const { OK, BAD_REQUEST } = require('http-status-codes');
 const amadeus = require('../amadeus');
 
 const router = Router();
 
 router.get('/', async (req, res, next) => {
-  const cityCode = req.query.city || 'YTO';
+  const searchString = req.query.search || 'Toronto, Canada';
+  const client = new Client({});
 
   try {
+    const geocoderResponse = await client.geocode({
+      params: {
+        address: searchString,
+        key: process.env.GOOGLE_MAPS_API_KEY,
+      }
+    });
+
+    const geocodeData = geocoderResponse.data;
+
+    if (geocodeData.status !== 'OK') {
+      return res.status(BAD_REQUEST).send();
+    }
+
+    const { lat: latitude, lng: longitude } = geocodeData.results[0].geometry.location;
+
     const response = await amadeus.shopping.hotelOffers.get({
-      cityCode
+      latitude,
+      longitude,
     });
 
     return res.status(OK).json(response.data);
