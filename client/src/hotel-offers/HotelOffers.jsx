@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import {
   Typography,
@@ -26,32 +26,22 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const initialSearchString = 'Toronto, Canada';
+
 export default function HotelOffers() {
   const classes = useStyles();
   const [hotelOffers, setHotelOffers] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchString, setSearchString] = useState('');
-  const [isSearching, setIsSearching] = useState(false);
+  const [searchString, setSearchString] = useState(initialSearchString);
   const [cities, setCities] = useState([]);
 
   const searchOptions = cities.map(city => city.name);
 
-  function search() {
-    setIsSearching(true);
+  const search = useCallback(
+    (searchString) => {
+      setIsLoading(true);
 
-    axios.get(`/api/hotel-offers?search=${searchString}`)
-      .then(response => {
-        setHotelOffers(response.data);
-        setIsSearching(false);
-      })
-      .catch(error => {
-        setIsSearching(false);
-      })
-  }
-
-  useEffect(() => {
-    function fetchAllHotels() {
-      axios.get('/api/hotel-offers')
+      axios.get(`/api/hotel-offers?search=${searchString}`)
         .then(response => {
           setHotelOffers(response.data);
           setIsLoading(false);
@@ -59,8 +49,11 @@ export default function HotelOffers() {
         .catch(error => {
           setIsLoading(false);
         })
-    }
+    },
+    []
+  );
 
+  useEffect(() => {
     function fetchCities() {
       axios.get('/api/cities')
         .then(response => {
@@ -68,20 +61,29 @@ export default function HotelOffers() {
         });
     }
 
-    fetchAllHotels();
     fetchCities();
-  }, []);
+    search(initialSearchString);
+  }, [search]);
 
-  if (isLoading) {
-    return <LoadingContentProgress />
-  }
+  function getContent() {
+    if (isLoading) {
+      return <LoadingContentProgress />
+    }
 
-  if (!hotelOffers) {
+    if (!hotelOffers) {
+      return (
+        <Box mt={3}>
+          <Typography variant='h6'>Failed to load hotels.</Typography>
+        </Box>)
+      ;
+    }
     return (
-      <Box mt={3}>
-        <Typography variant='h6'>Failed to load hotels.</Typography>
-      </Box>)
-    ;
+      <>
+        {hotelOffers.map(hotelOffer => (
+          <HotelOfferCard key={hotelOffer.hotel.hotelId} hotelOffer={hotelOffer} />
+        ))}
+      </>
+    );
   }
 
   return (
@@ -115,8 +117,8 @@ export default function HotelOffers() {
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={search}
-                    disabled={isSearching}
+                    onClick={() => search(searchString)}
+                    disabled={isLoading}
                     disableElevation
                   >
                     Search
@@ -125,9 +127,7 @@ export default function HotelOffers() {
               </Box>
             </Paper>
           </Box>
-          {hotelOffers.map(hotelOffer => (
-            <HotelOfferCard key={hotelOffer.hotel.hotelId} hotelOffer={hotelOffer} />
-          ))}
+          {getContent()}
         </Grid>
       </Grid>
     </Container>
