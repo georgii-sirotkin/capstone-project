@@ -47,6 +47,11 @@ export default function HotelOffers() {
           setIsLoading(false);
         })
         .catch(error => {
+          if (error.response.status === 400) {
+            alert('Couldn\'t geocode this address');
+            setHotelOffers([]);
+          }
+
           setIsLoading(false);
         })
     },
