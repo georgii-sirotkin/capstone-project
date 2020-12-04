@@ -34,6 +34,7 @@ export default function HotelOffers() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchString, setSearchString] = useState(initialSearchString);
   const [cities, setCities] = useState([]);
+  const [amenities, setAmenities] = useState([]);
 
   const searchOptions = cities.map(city => city.name);
 
@@ -66,6 +67,14 @@ export default function HotelOffers() {
         });
     }
 
+    function fetchAmenities() {
+      axios.get('/api/amenities')
+        .then(response => {
+          setAmenities(response.data);
+        });
+    }
+
+    fetchAmenities();
     fetchCities();
     search(initialSearchString);
   }, [search]);
@@ -85,7 +94,11 @@ export default function HotelOffers() {
     return (
       <>
         {hotelOffers.map(hotelOffer => (
-          <HotelOfferCard key={hotelOffer.hotel.hotelId} hotelOffer={hotelOffer} />
+          <HotelOfferCard
+            key={hotelOffer.hotel.hotelId}
+            hotelOffer={hotelOffer}
+            amenities={amenities}
+          />
         ))}
       </>
     );

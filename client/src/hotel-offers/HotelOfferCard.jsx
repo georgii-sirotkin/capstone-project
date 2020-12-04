@@ -11,7 +11,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import HotelRating from '../HotelRating';
-// import Amenity from './Amenity';
+import HotelOfferAmenities from './HotelOfferAmenities';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function HotelCard({ hotelOffer }) {
+export default function HotelOfferCard({ hotelOffer, amenities }) {
   const classes = useStyles();
   const hotel = hotelOffer.hotel;
   const hotelUrl = `/hotel-offers/${hotel.hotelId}`;
@@ -64,11 +64,12 @@ export default function HotelCard({ hotelOffer }) {
           <Typography className={classes.capitalize}>
             {address.toLowerCase()}
           </Typography>
-          {/* <Box mt={1} pb={1}>
-            {hotel.amenities.map(amenity => (
-              <Amenity key={amenity.id} amenity={amenity} />
-            ))}
-          </Box> */}
+          <Box mt={1} pb={1}>
+            <HotelOfferAmenities
+              allAmenities={amenities}
+              amenityCodes={hotel.amenities}
+            />
+          </Box>
         </CardContent>
         <Box display='flex' pl={2} mt={2} justifyContent='space-between' alignItems='center'>
           <HotelRating
