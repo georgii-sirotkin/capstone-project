@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useParams } from 'react-router-dom';
 import LoadingContentProgress from '../LoadingContentProgress';
 import HotelRating from '../HotelRating';
+import HotelOfferAmenities from './HotelOfferAmenities';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -40,6 +41,7 @@ export default function Hotel() {
   const classes = useStyles();
   const [hotelOffer, setHotelOffer] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [amenities, setAmenities] = useState([]);
   const id = params.id;
 
 
@@ -53,6 +55,13 @@ export default function Hotel() {
         setIsLoading(false);
       })
   }, [id]);
+
+  useEffect(() => {
+    axios.get('/api/amenities')
+      .then(response => {
+        setAmenities(response.data);
+      });
+  }, []);
 
   if (isLoading) {
     return <LoadingContentProgress />
@@ -90,6 +99,17 @@ export default function Hotel() {
           <Box mt={1}>
             <Typography>
               <strong>Phone: </strong>{hotel.contact.phone}
+            </Typography>
+          </Box>
+          <Box mt={1}>
+            <Typography component='span'>
+              <strong>Amenities: </strong>
+              <Box component='span' ml={1}>
+                <HotelOfferAmenities
+                  allAmenities={amenities}
+                  amenityCodes={hotel.amenities}
+                />
+              </Box>
             </Typography>
           </Box>
           <Box mt={1}>
