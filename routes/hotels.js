@@ -17,7 +17,8 @@ router.get('/', async (req, res, next) => {
       attributes: { 
         include: [
           [fn('COUNT', col('reviews.id')), 'reviewsCount'],
-          [fn('SUM', col('reviews.rating')), 'ratingSum']
+          [fn('SUM', col('reviews.rating')), 'ratingSum'],
+          [fn('MIN', col('rooms.price')), 'minPrice'],
         ] 
       },
       include: [
@@ -25,6 +26,11 @@ router.get('/', async (req, res, next) => {
         Hotel.associations.amenities,
         {
           association: Hotel.associations.reviews,
+          required: false,
+          attributes: [],
+        },
+        {
+          association: Hotel.associations.rooms,
           required: false,
           attributes: [],
         },
