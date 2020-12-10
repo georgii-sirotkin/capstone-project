@@ -8,15 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      type_id: {
+      type: {
         allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: {
-            tableName: 'room_types'
-          },
-          key: 'id'
-        },
+        type: Sequelize.STRING,
       },
       hotel_id: {
         allowNull: false,

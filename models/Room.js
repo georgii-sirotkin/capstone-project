@@ -6,7 +6,7 @@ class Room extends Model {
 }
 
 Room.init({
-  type_id: DataTypes.INTEGER,
+  type: DataTypes.STRING,
   hotel_id: DataTypes.INTEGER,
   price: DataTypes.DECIMAL
 }, {
