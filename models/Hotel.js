@@ -5,6 +5,7 @@ const Photo = require('./Photo');
 const Address = require('./Address');
 const Amenity = require('./Amenity');
 const Review = require('./Review');
+const Room = require('./Room');
 
 class Hotel extends Model {
 }
@@ -45,6 +46,12 @@ Hotel.hasMany(Review, {
   sourceKey: 'id',
   foreignKey: 'hotelId',
   as: 'reviews',
+});
+
+Hotel.hasMany(Room, {
+  sourceKey: 'id',
+  foreignKey: 'hotelId',
+  as: 'rooms',
 });
 
 module.exports = Hotel;

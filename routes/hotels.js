@@ -49,6 +49,7 @@ router.get('/:id', async (req, res, next) => {
         Hotel.associations.address,
         Hotel.associations.amenities,
         Hotel.associations.reviews,
+        Hotel.associations.rooms,
       ],
       rejectOnEmpty: true
     });

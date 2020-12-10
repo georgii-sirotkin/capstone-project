@@ -14,3 +14,5 @@ Room.init({
   modelName: 'Room',
   underscored: true,
 });
+
+module.exports = Room;
