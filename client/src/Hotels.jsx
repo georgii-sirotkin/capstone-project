@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import LoadingContentProgress from './LoadingContentProgress';
 import HotelCard from './HotelCard';
+import FiltersBlock from './FiltersBlock';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -33,6 +34,7 @@ export default function Hotels() {
   const [searchString, setSearchString] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [cities, setCities] = useState([]);
+  const [priceRange, setPriceRange] = useState([0, 1000]);
 
   const searchOptions = cities.map(city => city.name);
 
@@ -80,17 +82,22 @@ export default function Hotels() {
     return (
       <Box mt={3}>
         <Typography variant='h6'>Failed to load hotels.</Typography>
-      </Box>)
-    ;
+      </Box>
+    );
   }
+
+  const filteredHotels = filterHotels(hotels, priceRange);
 
   return (
     <Container className={classes.container} maxWidth='lg'>
       <Grid container spacing={3}>
         <Grid item xs={12} md={3}>
-          <Box bgcolor='grey.200' height='100%' p={3}>
-            Filters
-          </Box>
+          <FiltersBlock
+            priceRange={priceRange}
+            onPriceRangeChange={setPriceRange}
+            numberOfHotels={hotels ? hotels.length : null}
+            isLoadingHotels={isLoading}
+          />
         </Grid>
         <Grid item xs={12} md={9}>
           <Box mb={3}>
@@ -126,11 +133,23 @@ export default function Hotels() {
               </Box>
             </Paper>
           </Box>
-          {hotels.map(hotel => (
-            <HotelCard key={hotel.id} hotel={hotel} />
-          ))}
+          {filteredHotels.length === 0 ? (
+            <Box mt={3}>
+              <Typography variant='h6'>No results</Typography>
+            </Box>
+          ) : (
+            filteredHotels.map(hotel => (
+              <HotelCard key={hotel.id} hotel={hotel} />
+            ))
+          )}
         </Grid>
       </Grid>
     </Container>
   );
 };
+
+function filterHotels(hotels, priceRange) {
+  return hotels.filter(hotel => {
+    return hotel.minPrice >= priceRange[0] && hotel.minPrice <= priceRange[1];
+  });
+}
