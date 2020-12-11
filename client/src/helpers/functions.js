@@ -1,4 +1,4 @@
 export function formatPrice(price) {
-  const roundedPrice = Math.round(price * 100) / 100;
+  const roundedPrice = Math.round(price);
   return `$${roundedPrice} CAD`;
 }
