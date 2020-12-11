@@ -6,6 +6,7 @@ import {
   Container,
   Grid,
   Link,
+  Divider,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useParams } from 'react-router-dom';
@@ -13,6 +14,8 @@ import sumBy from 'lodash.sumby';
 import LoadingContentProgress from './LoadingContentProgress';
 import Amenity from './Amenity';
 import HotelRating from './HotelRating';
+import RoomsTable from './RoomsTable';
+import { formatPrice } from './helpers/functions';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -66,6 +69,7 @@ export default function Hotel() {
   }
 
   const ratingSum = sumBy(hotel.reviews, 'rating');
+  const formattedRooms = hotel.rooms.map(formatRoom);
 
   return (
     <Container className={classes.container} maxWidth='lg'>
@@ -113,6 +117,47 @@ export default function Hotel() {
           </Box>
         </Grid>
       </Grid>
+      <Box mt={4}>
+        <Divider />
+      </Box>
+      <Box mt={3}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <Typography variant='h5'>Rooms</Typography>
+            <RoomsTable rooms={formattedRooms} />
+          </Grid>
+        </Grid>
+      </Box>
     </Container>
   );
 };
+
+function formatRoom(room) {
+  const roomType =room.type;
+  const category = roomType[0] === 'A' ? 'Superior' : 'Standard';
+  const numberOfBeds = Number(roomType[1]);
+  const bedType = getBedTypeWord(roomType[2]);
+  const price = formatPrice(room.price);
+
+  return {
+    category,
+    numberOfBeds,
+    bedType,
+    price,
+  }
+}
+
+function getBedTypeWord(bedTypeLetter) {
+  switch (bedTypeLetter) {
+    case 'K':
+      return 'king';
+    case 'Q':
+      return 'queen';
+    case 'D':
+      return 'double';
+    case 'S':
+      return 'single';
+    default:
+      throw new Error('unknown bed type');
+  }
+}
