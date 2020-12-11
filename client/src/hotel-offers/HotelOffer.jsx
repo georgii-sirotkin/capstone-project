@@ -5,12 +5,15 @@ import {
   Box,
   Container,
   Grid,
+  Divider,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useParams } from 'react-router-dom';
 import LoadingContentProgress from '../LoadingContentProgress';
 import HotelRating from '../HotelRating';
 import HotelOfferAmenities from './HotelOfferAmenities';
+import RoomsTable from '../RoomsTable';
+import { formatPrice } from '../helpers/functions'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -77,6 +80,7 @@ export default function Hotel() {
 
   const hotel = hotelOffer.hotel;
   const address = extractAddress(hotel);
+  const rooms = hotelOffer.offers.map(extractRoomData);
 
   return (
     <Container className={classes.container} maxWidth='lg'>
@@ -120,6 +124,17 @@ export default function Hotel() {
           </Box>
         </Grid>
       </Grid>
+      <Box mt={4}>
+        <Divider />
+      </Box>
+      <Box mt={3}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <Typography variant='h5'>Rooms</Typography>
+            <RoomsTable rooms={rooms} />
+          </Grid>
+        </Grid>
+      </Box>
     </Container>
   );
 };
@@ -135,4 +150,19 @@ function extractAddress(hotel) {
   addressParts.push(hotel.address.country);
 
   return addressParts.filter(string => string).join(', ');
+}
+
+function extractRoomData(offer) {
+  const room = offer.room;
+  const category = room.typeEstimated.category === 'STANDARD_ROOM' ? 'Standard' : room.typeEstimated.category.toLowerCase();
+  const numberOfBeds = room.typeEstimated.beds ? Number(room.typeEstimated.beds) : null;
+  const bedType = room.typeEstimated.bedType ? room.typeEstimated.bedType.toLowerCase() : '';
+  const price = formatPrice(offer.price.total);
+
+  return {
+    category,
+    numberOfBeds,
+    bedType,
+    price,
+  }
 }

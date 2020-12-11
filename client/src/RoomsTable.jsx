@@ -27,7 +27,7 @@ export default function RoomsTable({ rooms }) {
                 {room.category}
               </TableCell>
               <TableCell>
-                {room.numberOfBeds} {room.bedType} {room.numberOfBeds === 1 ? 'bed' : 'beds'}
+                {getBedsInfo(room)}
               </TableCell>
               <TableCell align="right">{room.price}</TableCell>
             </TableRow>
@@ -36,4 +36,22 @@ export default function RoomsTable({ rooms }) {
       </Table>
     </TableContainer>
   );
+}
+
+function getBedsInfo(room) {
+  if (!room.numberOfBeds && !room.bedType) {
+    return null;
+  }
+
+  if (!room.numberOfBeds) {
+    return `${room.bedType} bed`;
+  }
+
+  const bedWord = room.numberOfBeds === 1 ? 'bed' : 'beds';
+
+  if (!room.bedType) {
+    return `${room.numberOfBeds} ${bedWord}`;
+  }
+
+  return `${room.numberOfBeds} ${room.bedType} ${bedWord}`;
 }
