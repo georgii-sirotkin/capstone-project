@@ -7,11 +7,13 @@ import {
   CardMedia,
   CardContent,
   Link,
+  Grid,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import Amenity from './Amenity';
 import HotelRating from './HotelRating';
+import { formatPrice } from './helpers/functions';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -38,11 +40,22 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(0, 0, 0, 2),
     flexGrow: 1,
   },
+  price: {
+    fontSize: '28px',
+    marginBottom: theme.spacing(1),
+
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: theme.spacing(1),
+      textAlign: 'right',
+      marginBottom: 0,
+    }
+  }
 }));
 
 export default function HotelCard({ hotel }) {
   const classes = useStyles();
   const hotelUrl = `/hotels/${hotel.id}`;
+  const formattedPrice = formatPrice(hotel.minPrice);
 
   return (
     <Card className={classes.card}>
@@ -53,17 +66,26 @@ export default function HotelCard({ hotel }) {
       />
       <Box display='flex' flexDirection='column' flexGrow={1}>
         <CardContent className={classes.cardContent}>
-          <Link variant="h6" component={RouterLink} to={hotelUrl}>
-            {hotel.name}
-          </Link>
-          <Typography>
-            {hotel.address.line1}, {hotel.address.city}
-          </Typography>
-          <Box mt={1} pb={1}>
-            {hotel.amenities.map(amenity => (
-              <Amenity key={amenity.id} amenity={amenity} />
-            ))}
-          </Box>
+          <Grid container spacing={0}>
+            <Grid item xs={12} sm={8} lg={9}>
+              <Link variant='h6' component={RouterLink} to={hotelUrl}>
+                {hotel.name}
+              </Link>
+              <Typography>
+                {hotel.address.line1}, {hotel.address.city}
+              </Typography>
+              <Box mt={1} pb={1}>
+                {hotel.amenities.map(amenity => (
+                  <Amenity key={amenity.id} amenity={amenity} />
+                ))}
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={4} lg={3}>
+              <Typography variant='h5' className={classes.price}>
+                {formattedPrice}
+              </Typography>
+            </Grid>
+          </Grid>
         </CardContent>
         <Box display='flex' pl={2} justifyContent='space-between' alignItems='center'>
           <HotelRating
