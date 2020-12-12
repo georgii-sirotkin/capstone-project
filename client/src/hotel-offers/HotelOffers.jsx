@@ -5,15 +5,13 @@ import {
   Box,
   Container,
   Grid,
-  TextField,
   Paper,
-  Button,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import LoadingContentProgress from '../LoadingContentProgress';
 import HotelOfferCard from './HotelOfferCard';
 import FiltersBlock from '../FiltersBlock';
+import Search from './Search';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -33,13 +31,10 @@ export default function HotelOffers() {
   const classes = useStyles();
   const [hotelOffers, setHotelOffers] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchString, setSearchString] = useState(initialSearchString);
-  const [cities, setCities] = useState([]);
   const [amenities, setAmenities] = useState([]);
   const [selectedAmenityCodes, setSelectedAmenityCodes] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 1000]);
 
-  const searchOptions = cities.map(city => city.name);
   let filteredHotelOffers = null;
 
   if (!isLoading && hotelOffers) {
@@ -68,13 +63,6 @@ export default function HotelOffers() {
   );
 
   useEffect(() => {
-    function fetchCities() {
-      axios.get('/api/cities')
-        .then(response => {
-          setCities(response.data);
-        });
-    }
-
     function fetchAmenities() {
       axios.get('/api/amenities')
         .then(response => {
@@ -83,7 +71,6 @@ export default function HotelOffers() {
     }
 
     fetchAmenities();
-    fetchCities();
     search(initialSearchString);
   }, [search]);
 
@@ -136,34 +123,11 @@ export default function HotelOffers() {
         <Grid item xs={12} md={9}>
           <Box mb={3}>
             <Paper elevation={1}>
-              <Box display='flex' p={2} alignItems='flex-end'>
-                <Autocomplete
-                  disableClearable
-                  fullWidth
-                  freeSolo
-                  options={searchOptions}
-                  value={searchString}
-                  onInputChange={(event, newValue) => setSearchString(newValue)}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      placeholder="Destination"
-                      InputProps={{ ...params.InputProps, type: 'search' }}
-                    />
-                  )}
-                />
-                <Box ml={2}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => search(searchString)}
-                    disabled={isLoading}
-                    disableElevation
-                  >
-                    Search
-                  </Button>
-                </Box>
-              </Box>
+              <Search
+                initialValue={initialSearchString}
+                isLoading={isLoading}
+                onSearch={(value) => search(value)}
+              />
             </Paper>
           </Box>
           {getContent()}
