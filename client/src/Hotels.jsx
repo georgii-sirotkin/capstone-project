@@ -96,7 +96,7 @@ export default function Hotels() {
     );
   }
 
-  const filteredHotels = filterHotels(hotels, priceRange);
+  const filteredHotels = filterHotels(hotels, priceRange, selectedAmenityCodes);
 
   return (
     <Container className={classes.container} maxWidth='lg'>
@@ -161,8 +161,30 @@ export default function Hotels() {
   );
 };
 
-function filterHotels(hotels, priceRange) {
-  return hotels.filter(hotel => {
-    return hotel.minPrice >= priceRange[0] && hotel.minPrice <= priceRange[1];
-  });
+function filterHotels(hotels, priceRange, selectedAmenityCodes) {
+  return hotels.filter(
+    hotel => shouldDisplayHotel(hotel, priceRange, selectedAmenityCodes)
+  );
+}
+
+function shouldDisplayHotel(hotel, priceRange, selectedAmenityCodes) {
+  if (hotel.minPrice < priceRange[0] || hotel.minPrice > priceRange[1]) {
+    return false;
+  }
+
+  if (selectedAmenityCodes.length === 0) {
+    return true;
+  }
+
+  return hasAmenities(hotel, selectedAmenityCodes);
+}
+
+function hasAmenities(hotel, amenityCodes) {
+  for (const amenityCode of amenityCodes) {
+    if (!hotel.amenities.some(amenity => amenity.code === amenityCode)) {
+      return false;
+    }
+  }
+
+  return true;
 }
