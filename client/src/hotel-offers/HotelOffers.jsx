@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import LoadingContentProgress from '../LoadingContentProgress';
 import HotelOfferCard from './HotelOfferCard';
+import FiltersBlock from '../FiltersBlock';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -35,6 +36,7 @@ export default function HotelOffers() {
   const [searchString, setSearchString] = useState(initialSearchString);
   const [cities, setCities] = useState([]);
   const [amenities, setAmenities] = useState([]);
+  const [priceRange, setPriceRange] = useState([0, 1000]);
 
   const searchOptions = cities.map(city => city.name);
 
@@ -91,9 +93,12 @@ export default function HotelOffers() {
         </Box>)
       ;
     }
+
+    const filteredHotelOffers = filterHotelOffers(hotelOffers, priceRange);
+
     return (
       <>
-        {hotelOffers.map(hotelOffer => (
+        {filteredHotelOffers.map(hotelOffer => (
           <HotelOfferCard
             key={hotelOffer.hotel.hotelId}
             hotelOffer={hotelOffer}
@@ -108,9 +113,12 @@ export default function HotelOffers() {
     <Container className={classes.container} maxWidth='lg'>
       <Grid container spacing={3}>
         <Grid item xs={12} md={3}>
-          <Box bgcolor='grey.200' height='100%' p={3}>
-            Filters
-          </Box>
+          <FiltersBlock
+            priceRange={priceRange}
+            onPriceRangeChange={setPriceRange}
+            numberOfHotels={hotelOffers ? filterHotelOffers(hotelOffers, priceRange).length : 0}
+            isLoadingHotels={isLoading}
+          />
         </Grid>
         <Grid item xs={12} md={9}>
           <Box mb={3}>
@@ -151,3 +159,11 @@ export default function HotelOffers() {
     </Container>
   );
 };
+
+function filterHotelOffers(hotelOffers, priceRange) {
+  return hotelOffers.filter(hotelOffer => {
+    const offer = hotelOffer.offers[0];
+    const price = offer.price.total;
+    return price >= priceRange[0] && price <= priceRange[1];
+  });
+}

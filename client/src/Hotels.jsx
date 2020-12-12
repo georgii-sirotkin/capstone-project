@@ -95,7 +95,7 @@ export default function Hotels() {
           <FiltersBlock
             priceRange={priceRange}
             onPriceRangeChange={setPriceRange}
-            numberOfHotels={hotels ? hotels.length : null}
+            numberOfHotels={filteredHotels.length}
             isLoadingHotels={isLoading}
           />
         </Grid>
