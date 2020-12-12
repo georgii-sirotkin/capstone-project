@@ -34,6 +34,8 @@ export default function Hotels() {
   const [searchString, setSearchString] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [cities, setCities] = useState([]);
+  const [amenities, setAmenities] = useState([]);
+  const [selectedAmenityCodes, setSelectedAmenityCodes] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 1000]);
 
   const searchOptions = cities.map(city => city.name);
@@ -70,6 +72,14 @@ export default function Hotels() {
         });
     }
 
+    function fetchAmenities() {
+      axios.get('/api/amenities')
+        .then(response => {
+          setAmenities(response.data);
+        });
+    }
+
+    fetchAmenities();
     fetchAllHotels();
     fetchCities();
   }, []);
@@ -95,6 +105,9 @@ export default function Hotels() {
           <FiltersBlock
             priceRange={priceRange}
             onPriceRangeChange={setPriceRange}
+            amenities={amenities}
+            selectedAmenityCodes={selectedAmenityCodes}
+            onSelectedAmenityCodesChange={setSelectedAmenityCodes}
             numberOfHotels={filteredHotels.length}
             isLoadingHotels={isLoading}
           />

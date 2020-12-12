@@ -4,6 +4,8 @@ import {
   Box,
   Divider,
   Slider,
+  Checkbox,
+  FormControlLabel,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { formatPrice } from './helpers/functions'
@@ -18,12 +20,18 @@ const useStyles = makeStyles(theme => ({
   priceRangeText: {
     fontWeight: 500,
     fontSize: 13,
+  },
+  checkbox: {
+    padding: '5px 6px 5px 9px',
   }
 }));
 
 export default function FiltersBlock({
   priceRange,
   onPriceRangeChange,
+  amenities,
+  selectedAmenityCodes,
+  onSelectedAmenityCodesChange,
   numberOfHotels,
   isLoadingHotels,
 }) {
@@ -35,8 +43,22 @@ export default function FiltersBlock({
 
   const priceRangeText = formatPrice(priceRange[0]) + ' to ' + formatPrice(priceRange[1]);
 
+  function handleAmenityCheckboxChange(event) {
+    let updatedSelectedAmenityCodes;
+
+    if (event.target.checked) {
+      updatedSelectedAmenityCodes = selectedAmenityCodes.concat(event.target.name);
+    } else {
+      updatedSelectedAmenityCodes = selectedAmenityCodes.filter(
+        code => code !== event.target.name
+      );
+    }
+
+    onSelectedAmenityCodesChange(updatedSelectedAmenityCodes);
+  }
+
   return (
-    <Box bgcolor='grey.200' height='100%'>
+    <Box bgcolor='grey.200'>
       <div className={classes.section}>
         <Typography variant='subtitle1' className={classes.bold}>
           Narrow results:
@@ -63,8 +85,32 @@ export default function FiltersBlock({
             value={priceRange}
             onChange={handlePriceRangeChange}
             max={1000}
+            step={10}
           />
         </Box>
+      </div>
+      <Divider />
+      <div className={classes.section}>
+        <Typography variant='subtitle2'>
+          Amenities
+        </Typography>
+        {amenities.map(amenity => (
+          <div key={amenity.code}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  size='small'
+                  checked={selectedAmenityCodes.includes(amenity.code)}
+                  name={amenity.code}
+                  className={classes.checkbox}
+                  color='primary'
+                  onChange={handleAmenityCheckboxChange}
+                />
+              )}
+              label={amenity.name}
+            />
+          </div>
+        ))}
       </div>
     </Box>
   );

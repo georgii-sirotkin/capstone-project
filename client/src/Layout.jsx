@@ -95,7 +95,7 @@ export default function Layout({ onLogOut, user, children }) {
             <MenuIcon />
           </IconButton>
           <Typography variant='h6' className={classes.title} noWrap>
-            Hotel Listing
+            Hotel Listings
           </Typography>
           <Box display='flex' alignItems='center'>
             <Hidden mdDown>

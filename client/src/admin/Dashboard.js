@@ -108,7 +108,7 @@ export default function Dashboard({ onLogOut, user }) {
             <MenuIcon />
           </IconButton>
           <Typography variant='h6' className={classes.title} noWrap>
-            Hotel Listing
+            Hotel Listings
           </Typography>
           <div>
             <IconButton

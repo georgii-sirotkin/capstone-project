@@ -56,7 +56,7 @@ export default function Login({ user, onLogIn }) {
     <Container component='main' maxWidth='xs'>
       <div className={classes.paper}>
         <Typography component='h1' variant='h5'>
-          Hotel Listing
+          Hotel Listings
         </Typography>
         <Formik
           initialValues={initialValues}

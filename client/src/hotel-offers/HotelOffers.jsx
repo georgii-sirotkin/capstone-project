@@ -36,6 +36,7 @@ export default function HotelOffers() {
   const [searchString, setSearchString] = useState(initialSearchString);
   const [cities, setCities] = useState([]);
   const [amenities, setAmenities] = useState([]);
+  const [selectedAmenityCodes, setSelectedAmenityCodes] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 1000]);
 
   const searchOptions = cities.map(city => city.name);
@@ -116,6 +117,9 @@ export default function HotelOffers() {
           <FiltersBlock
             priceRange={priceRange}
             onPriceRangeChange={setPriceRange}
+            amenities={amenities}
+            selectedAmenityCodes={selectedAmenityCodes}
+            onSelectedAmenityCodesChange={setSelectedAmenityCodes}
             numberOfHotels={hotelOffers ? filterHotelOffers(hotelOffers, priceRange).length : 0}
             isLoadingHotels={isLoading}
           />
