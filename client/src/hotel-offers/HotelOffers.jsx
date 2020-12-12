@@ -40,6 +40,11 @@ export default function HotelOffers() {
   const [priceRange, setPriceRange] = useState([0, 1000]);
 
   const searchOptions = cities.map(city => city.name);
+  let filteredHotelOffers = null;
+
+  if (!isLoading && hotelOffers) {
+    filteredHotelOffers = filterHotelOffers(hotelOffers, priceRange, selectedAmenityCodes);
+  }
 
   const search = useCallback(
     (searchString) => {
@@ -95,18 +100,22 @@ export default function HotelOffers() {
       ;
     }
 
-    const filteredHotelOffers = filterHotelOffers(hotelOffers, priceRange);
+    if (filteredHotelOffers.length === 0) {
+      return (
+        <Box mt={3}>
+          <Typography variant='h6'>No results</Typography>
+        </Box>
+      );
+    }
 
-    return (
-      <>
-        {filteredHotelOffers.map(hotelOffer => (
-          <HotelOfferCard
-            key={hotelOffer.hotel.hotelId}
-            hotelOffer={hotelOffer}
-            amenities={amenities}
-          />
-        ))}
-      </>
+    return filteredHotelOffers.map(
+      hotelOffer => (
+        <HotelOfferCard
+          key={hotelOffer.hotel.hotelId}
+          hotelOffer={hotelOffer}
+          amenities={amenities}
+        />
+      )
     );
   }
 
@@ -120,7 +129,7 @@ export default function HotelOffers() {
             amenities={amenities}
             selectedAmenityCodes={selectedAmenityCodes}
             onSelectedAmenityCodesChange={setSelectedAmenityCodes}
-            numberOfHotels={hotelOffers ? filterHotelOffers(hotelOffers, priceRange).length : 0}
+            numberOfHotels={filteredHotelOffers ? filteredHotelOffers.length : 0}
             isLoadingHotels={isLoading}
           />
         </Grid>
@@ -164,10 +173,33 @@ export default function HotelOffers() {
   );
 };
 
-function filterHotelOffers(hotelOffers, priceRange) {
-  return hotelOffers.filter(hotelOffer => {
-    const offer = hotelOffer.offers[0];
-    const price = offer.price.total;
-    return price >= priceRange[0] && price <= priceRange[1];
-  });
+function filterHotelOffers(hotelOffers, priceRange, selectedAmenityCodes) {
+  return hotelOffers.filter(
+    hotelOffer => shouldDisplayHotelOffer(hotelOffer, priceRange, selectedAmenityCodes)
+  );
+}
+
+function shouldDisplayHotelOffer(hotelOffer, priceRange, selectedAmenityCodes) {
+  const offer = hotelOffer.offers[0];
+  const price = offer.price.total;
+
+  if (price < priceRange[0] || price > priceRange[1]) {
+    return false;
+  }
+
+  if (selectedAmenityCodes.length === 0) {
+    return true;
+  }
+
+  return hasAmenities(hotelOffer.hotel, selectedAmenityCodes);
+}
+
+function hasAmenities(hotel, amenityCodes) {
+  for (const amenityCode of amenityCodes) {
+    if (!hotel.amenities.some(amenity => amenity === amenityCode)) {
+      return false;
+    }
+  }
+
+  return true;
 }
