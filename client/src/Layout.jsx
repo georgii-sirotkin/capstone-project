@@ -176,7 +176,7 @@ export default function Layout({ onLogOut, user, children }) {
                 color='inherit'
                 variant='outlined'
                 component={RouterLink}
-                to='login'
+                to='/login'
                 className={classes.loginButton}
               >
                 Login
